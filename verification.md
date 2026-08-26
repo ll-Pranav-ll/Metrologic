@@ -83,3 +83,5 @@ A reproducible browser measurement of the open inspection detail found `overflow
 A second post-fix camera check used a canvas-backed stream with one active video track and a 640×480 visible color-bar frame. The live camera dialog opened successfully; the subsequent readiness measurement will confirm whether the browser exposed frame metadata to the video element.
 
 The canvas-backed stream exposed one active video track, but the sandbox browser’s media pipeline did not surface frame metadata (`readyState: 0`, `videoWidth: 0`, `videoHeight: 0`). This environment limitation prevents a truthful pixel-level non-black preview claim. The production fix remains wired for real device streams; physical-phone confirmation is still recommended because only a device camera can provide that final hardware-specific proof.
+
+The user subsequently confirmed that the repaired camera preview works on their phone, completing the outstanding physical-device verification.

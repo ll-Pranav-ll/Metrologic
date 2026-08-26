@@ -6,6 +6,7 @@ import { createPdfReport, downloadCsv, downloadJson, downloadPdf } from "@/lib/i
 import { trpc } from "@/lib/trpc";
 import type { InspectionRecord, RegionFlag, RuleState } from "@shared/inspection";
 import { AlertTriangle, Check, Download, FileJson, FileText, Flag, LoaderCircle, Save, Table2, X } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -20,6 +21,7 @@ function StateDot({ state }: { state: RuleState }) {
 }
 
 export function InspectionDetail({ record, onClose, compact = false }: { record: InspectionRecord; onClose?: () => void; compact?: boolean }) {
+  const reduceMotion = useReducedMotion();
   const [notes, setNotes] = useState(record.inspectorNotes);
   const [flags, setFlags] = useState<RegionFlag[]>(record.regionFlags);
   const [flagMode, setFlagMode] = useState(false);
@@ -74,7 +76,7 @@ export function InspectionDetail({ record, onClose, compact = false }: { record:
     finally { setIsPdfWorking(false); }
   };
 
-  return <section className={cn("inspection-detail relative overflow-hidden border border-[#11120f]/15 bg-[#fbfaf6] p-4 sm:p-6", !compact && "shadow-[12px_12px_0_rgba(17,18,15,0.10)]")}>
+  return <motion.section initial={reduceMotion ? false : { opacity: 0, y: 12, scale: .985 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: .34, ease: [0.16, 1, 0.3, 1] }} className={cn("inspection-detail motion-card relative overflow-hidden border border-[#11120f]/15 bg-[#fbfaf6] p-4 sm:p-6", !compact && "shadow-[12px_12px_0_rgba(17,18,15,0.10)]")}>
     <div className="pointer-events-none absolute inset-0 opacity-[0.05] [background-image:linear-gradient(#151610_1px,transparent_1px),linear-gradient(90deg,#151610_1px,transparent_1px)] [background-size:24px_24px]" />
     <div className="relative flex flex-wrap items-start justify-between gap-4">
       <div>
@@ -128,5 +130,5 @@ export function InspectionDetail({ record, onClose, compact = false }: { record:
       <Button variant="outline" onClick={() => downloadCsv({ ...record, inspectorNotes: notes, regionFlags: flags })} className="rounded-none border-[#11120f]/20 font-mono text-[10px] uppercase tracking-[0.12em]"><Table2 className="mr-2 h-3.5 w-3.5" />CSV</Button>
       {record.reportUrl && <a href={record.reportUrl} target="_blank" rel="noreferrer" className="inline-flex h-9 items-center border border-[#11120f]/20 px-3 font-mono text-[10px] uppercase tracking-[0.12em] hover:bg-[#11120f] hover:text-[#c8ff00]"><Download className="mr-2 h-3.5 w-3.5" />Saved report</a>}
     </div>
-  </section>;
+  </motion.section>;
 }
