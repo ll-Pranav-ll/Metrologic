@@ -67,3 +67,19 @@ The live inspection detail dialog was reopened with its persisted evidence marke
 The Raw JSON tab received focus and **Enter** activated it, rendering the stored extraction and seven-rule evaluation payload without pointer input.
 
 The automated suite verifies the Gemini credential, seven-rule evaluator, seeded repository filtering and dashboard metrics, plus tRPC contracts for list, get, analyze, update-notes, and saved-report procedures. The interface has visible focus treatment for keyboard-operable upload intake, inspection rows, evidence-region flagging, controls, tabs, and dismiss actions.
+
+## Mobile bug trace
+
+The scanner previously assigned the camera stream through a `setTimeout(0)` after toggling camera modal state, without explicitly attaching and playing the stream after the video element mounted. Mobile autoplay policies also require a muted inline video for reliable preview playback. The fix will attach the stream in a camera-open effect, set `muted` and `playsInline`, and call `play()` defensively.
+
+The record detail dialog already had an overflow rule, but its content was the direct child of a grid-based dialog surface. The fix will make the dialog shell clip overflow and give an explicit inner wrapper full vertical scrolling with touch overscroll containment.
+
+The refreshed history detail dialog now renders with an explicit inner `overflow-y-auto` surface. A live retained record opened successfully and the dialog showed its own vertical scrollbar, confirming that the record card can be scrolled independently on constrained viewports.
+
+Post-fix camera verification passed in the live scanner: the authorized synthetic media stream was attached to the mounted video element (`hasStream: true`), with `muted: true`, `playsInline: true`, and `autoplay: true`. The synthetic stream intentionally contained no tracks/frames, so its measured dimensions remained 0; this is expected for the hardware-free test and does not represent the prior lifecycle bug.
+
+A reproducible browser measurement of the open inspection detail found `overflowY: auto`, `overscrollBehavior: contain`, `clientHeight: 1060`, and `scrollHeight: 1207`, with `isScrollable: true`. This confirms the card content now has an independent vertical scroll region rather than being clipped by the dialog surface.
+
+A second post-fix camera check used a canvas-backed stream with one active video track and a 640×480 visible color-bar frame. The live camera dialog opened successfully; the subsequent readiness measurement will confirm whether the browser exposed frame metadata to the video element.
+
+The canvas-backed stream exposed one active video track, but the sandbox browser’s media pipeline did not surface frame metadata (`readyState: 0`, `videoWidth: 0`, `videoHeight: 0`). This environment limitation prevents a truthful pixel-level non-black preview claim. The production fix remains wired for real device streams; physical-phone confirmation is still recommended because only a device camera can provide that final hardware-specific proof.

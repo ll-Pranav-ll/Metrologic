@@ -54,10 +54,12 @@ export default function ScanHistory() {
       </tbody></table></div>
     </section>
     <Dialog open={Boolean(selected)} onOpenChange={open => { if (!open) close(); }}>
-      <DialogContent showCloseButton={false} className="h-[calc(100dvh-1rem)] max-w-[calc(100%-1rem)] gap-0 overflow-y-auto rounded-none border-0 bg-[#f3f2ed] p-4 shadow-[-12px_0_0_rgba(200,255,0,.65)] sm:h-[calc(100dvh-2.5rem)] sm:max-w-5xl sm:p-6">
+      <DialogContent showCloseButton={false} className="flex h-[calc(100dvh-1rem)] max-h-[calc(100dvh-1rem)] max-w-[calc(100%-1rem)] flex-col gap-0 overflow-hidden rounded-none border-0 bg-[#f3f2ed] p-0 shadow-[-12px_0_0_rgba(200,255,0,.65)] sm:h-[calc(100dvh-2.5rem)] sm:max-h-[calc(100dvh-2.5rem)] sm:max-w-5xl sm:p-0">
         <DialogTitle className="sr-only">Inspection detail</DialogTitle>
         <DialogDescription className="sr-only">Detailed evidence, seven-rule evaluation, notes, and report exports for the selected inspection.</DialogDescription>
-        {selected && <InspectionDetail record={selected} onClose={close} compact />}
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 [scrollbar-color:#11120f_#e8e7df] [-webkit-overflow-scrolling:touch] sm:px-6 sm:py-6">
+          {selected && <InspectionDetail record={selected} onClose={close} compact />}
+        </div>
       </DialogContent>
     </Dialog>
   </MetrologicShell>;

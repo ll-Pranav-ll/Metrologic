@@ -28,3 +28,10 @@
 - [x] Run and document explicit keyboard focus and activation tests for Summary, Extracted Data, Raw JSON, and PDF Preview tabs.
 - [x] Run and document an explicit keyboard Enter-key activation test for the New Scan navigation control.
 - [x] Run and document an explicit keyboard activation test for the Raw JSON tab.
+- [x] Fix authorized mobile camera preview showing black instead of live video.
+- [x] Make the inspection record detail card scrollable on phone-sized viewports.
+- [x] Add regression coverage and verify the mobile scanner and detail-card flows.
+- [ ] Confirm the authorized camera preview renders non-black live video on a physical mobile device after the fix.
+- [x] Ensure the camera regression test is included in the configured Vitest scope and rerun the suite.
+- [x] Add reproducible regression coverage or a measured browser check for the mobile detail-card scroll container.
+- [ ] Verify the fixed camera preview renders actual frames on a physical mobile device and document nonzero video dimensions/readiness evidence.

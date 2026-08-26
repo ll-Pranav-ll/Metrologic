@@ -3,6 +3,7 @@ import { MetrologicShell } from "@/components/MetrologicShell";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
+import { bindCameraStream } from "@/lib/camera";
 import type { InspectionRecord } from "@shared/inspection";
 import { Camera, ImagePlus, LoaderCircle, ScanLine, Trash2, Upload, Video, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -39,6 +40,16 @@ export default function NewScan() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     animate(".scan-reveal", { opacity: [0, 1], translateY: [16, 0], delay: stagger(70), duration: 520, ease: "outExpo" });
   }, []);
+  useEffect(() => {
+    if (!cameraOpen) return;
+    const stream = streamRef.current;
+    if (!stream) return;
+    const video = videoRef.current;
+    bindCameraStream(video, stream);
+    return () => {
+      if (video?.srcObject === stream) video.srcObject = null;
+    };
+  }, [cameraOpen]);
   useEffect(() => () => { streamRef.current?.getTracks().forEach(track => track.stop()); }, []);
   useEffect(() => { if (result) utils.inspection.list.invalidate(); }, [result, utils.inspection.list]);
 
@@ -55,7 +66,6 @@ export default function NewScan() {
       const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } }, audio: false });
       streamRef.current = stream;
       setCameraOpen(true);
-      window.setTimeout(() => { if (videoRef.current) videoRef.current.srcObject = stream; }, 0);
     } catch { toast.error("Camera access is unavailable. Use the image picker instead."); cameraInputRef.current?.click(); }
   };
   const closeCamera = () => { streamRef.current?.getTracks().forEach(track => track.stop()); streamRef.current = null; setCameraOpen(false); };
@@ -84,6 +94,6 @@ export default function NewScan() {
       <aside className="scan-reveal border border-[#11120f]/15 bg-[#11120f] p-5 text-[#f3f2ec]"><Video className="h-5 w-5 text-[#c8ff00]" /><p className="mt-8 font-mono text-[10px] uppercase tracking-[0.18em] text-[#c8ff00]">Evidence protocol</p><h2 className="mt-2 font-serif text-3xl leading-none">Make every declaration legible.</h2><ol className="mt-7 space-y-5">{["Photograph the front panel and the statutory declaration panel.", "Use focus and light to keep small text, dates, and MRP statements readable.", "Review red, amber, and green cards before committing official notes.", "Export or retain an official-style inspection report when complete."].map((text, index) => <li key={text} className="flex gap-3"><span className="grid h-5 w-5 shrink-0 place-items-center border border-[#c8ff00]/60 font-mono text-[9px] text-[#c8ff00]">0{index + 1}</span><p className="font-mono text-[11px] leading-relaxed text-[#c7c9be]">{text}</p></li>)}</ol></aside>
     </section>
     {result && <div className="mt-9"><InspectionDetail record={result} onClose={() => setResult(null)} /></div>}
-    {cameraOpen && <div className="fixed inset-0 z-[70] grid place-items-center bg-[#11120f]/85 p-4"><div className="w-full max-w-3xl border border-white/20 bg-[#11120f] p-4 text-white shadow-[10px_10px_0_#c8ff00]"><div className="flex items-center justify-between"><p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#c8ff00]">Live camera capture</p><button onClick={closeCamera}><X className="h-5 w-5" /></button></div><video ref={videoRef} autoPlay playsInline className="mt-4 aspect-video w-full bg-black object-cover" /><div className="mt-4 flex justify-end gap-2"><Button variant="outline" onClick={closeCamera} className="rounded-none border-white/30 bg-transparent font-mono text-[10px] uppercase tracking-[0.14em] text-white hover:bg-white hover:text-[#11120f]">Cancel</Button><Button onClick={captureFrame} className="rounded-none bg-[#c8ff00] font-mono text-[10px] uppercase tracking-[0.14em] text-[#11120f]"><Camera className="mr-2 h-3.5 w-3.5" />Capture frame</Button></div></div></div>}
+    {cameraOpen && <div className="fixed inset-0 z-[70] grid place-items-center bg-[#11120f]/85 p-4"><div className="w-full max-w-3xl border border-white/20 bg-[#11120f] p-4 text-white shadow-[10px_10px_0_#c8ff00]"><div className="flex items-center justify-between"><p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#c8ff00]">Live camera capture</p><button onClick={closeCamera}><X className="h-5 w-5" /></button></div><video ref={videoRef} autoPlay muted playsInline onLoadedMetadata={() => bindCameraStream(videoRef.current, streamRef.current)} className="mt-4 aspect-video w-full bg-black object-cover" /><div className="mt-4 flex justify-end gap-2"><Button variant="outline" onClick={closeCamera} className="rounded-none border-white/30 bg-transparent font-mono text-[10px] uppercase tracking-[0.14em] text-white hover:bg-white hover:text-[#11120f]">Cancel</Button><Button onClick={captureFrame} className="rounded-none bg-[#c8ff00] font-mono text-[10px] uppercase tracking-[0.14em] text-[#11120f]"><Camera className="mr-2 h-3.5 w-3.5" />Capture frame</Button></div></div></div>}
   </MetrologicShell>;
 }
