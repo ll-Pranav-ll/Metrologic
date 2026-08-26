@@ -39,3 +39,6 @@
 - [x] Replace the current editorial mono/serif pairing with a modern sans and display type system.
 - [x] Add Motion-inspired route, card, dialog, and control transitions with reduced-motion support.
 - [x] Verify dark-theme contrast, desktop/mobile layouts, and animated interactions before release.
+- [x] Change all workspace typography to Inter.
+- [x] Keep Scan History record-row hover states dark grey with readable text.
+- [x] Verify the updated font and history-row hover contrast on desktop and mobile.
