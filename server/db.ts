@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertInspection, InsertUser, inspections, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,29 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+export async function listInspections() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(inspections).orderBy(desc(inspections.createdAt));
+}
+
+export async function getInspectionById(id: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(inspections).where(eq(inspections.id, id)).limit(1);
+  return result[0];
+}
+
+export async function createInspection(record: InsertInspection) {
+  const db = await getDb();
+  if (!db) throw new Error("Inspection storage is not available.");
+  await db.insert(inspections).values(record);
+  return getInspectionById(record.id);
+}
+
+export async function updateInspection(id: string, updates: Partial<InsertInspection>) {
+  const db = await getDb();
+  if (!db) throw new Error("Inspection storage is not available.");
+  await db.update(inspections).set(updates).where(eq(inspections.id, id));
+  return getInspectionById(id);
+}

@@ -1,0 +1,30 @@
+# Project TODO
+
+- [x] Define a durable inspection record model and swappable repository interface with five seeded inspection examples.
+- [x] Add secure server-side Gemini Vision configuration and structured extraction service for packaging images.
+- [x] Implement the isolated configurable rule engine evaluating exactly seven mock Legal Metrology requirements.
+- [x] Add evidence-image and generated-report storage outside the application process with persistent record references.
+- [x] Build responsive navigation labelled Dashboard, New Scan, and Scan History for mobile field use and desktop review.
+- [x] Build the dual-mode scanner with camera capture, multi-image drag-and-drop upload, and evidence thumbnails.
+- [x] Build the live inspection workspace with red, amber, and green rule cards, extracted data, raw JSON, notes, and evidence-region flags.
+- [x] Build the searchable, filterable scan history with compliance, brand, and date filters plus a detail drawer.
+- [x] Build official-style PDF preview/download and JSON/CSV inspection summary exports.
+- [x] Apply an Anime.js-inspired editorial visual system with kinetic SVG line motifs, staggered entrances, and reduced-motion support.
+- [x] Add automated tests for the rule engine, repository operations, and server integration contracts.
+- [x] Verify functionality, responsive layouts, accessibility basics, and the primary browser flows.
+- [x] Implement a real PDF preview in the inspection detail report tab using a generated blob URL and embedded viewer.
+- [x] Add kinetic SVG/line motifs and staggered Anime.js motion across Dashboard, New Scan, and Scan History while respecting reduced-motion preferences.
+- [x] Add Vitest inspection-router contract tests for list, get, analyze, updateNotes, and saveReport procedures.
+- [x] Verify primary flows at mobile and desktop breakpoints and address keyboard focus/control usability issues.
+- [x] Add Anime.js staggered entrance sequences for New Scan and Scan History with reduced-motion guards.
+- [x] Perform and document interactive desktop/mobile checks for navigation, upload, camera fallback, history filtering/detail drawer, and export actions.
+- [x] Audit and reinforce keyboard focus usability for navigation, tabs, dialogs, upload controls, and image-flagging actions.
+- [x] Exercise and document upload, camera fallback/capture, and JSON/CSV/PDF export actions at desktop and mobile breakpoints.
+- [x] Refactor the custom history detail drawer into an accessible modal with labelled semantics, initial focus, focus trapping, and keyboard-close support.
+- [x] Document the final keyboard audit with the tested navigation, tabs, modal, upload, and evidence-flagging behaviors.
+- [x] Exercise and document the live camera capture path with a controlled media stream, alongside the existing fallback and export checks.
+- [x] Run and document explicit keyboard tests for navigation, tabs, modal controls, upload intake, and keyboard evidence-region flagging.
+- [x] Run and document explicit keyboard activation tests for Dashboard, New Scan, and Scan History navigation controls.
+- [x] Run and document explicit keyboard focus and activation tests for Summary, Extracted Data, Raw JSON, and PDF Preview tabs.
+- [x] Run and document an explicit keyboard Enter-key activation test for the New Scan navigation control.
+- [x] Run and document an explicit keyboard activation test for the Raw JSON tab.

@@ -1,0 +1,69 @@
+# Verification Notes
+
+The primary workspace routes were reviewed at desktop (1440 × 1100) and field-mobile (390 × 844) viewports. Dashboard, New Scan, and Scan History retain readable hierarchy and working responsive navigation at both breakpoints. The mobile scan station preserves the camera/upload actions, drag-and-drop intake surface, inspection notes field, and primary extraction action without horizontal overflow.
+
+The live Scan History route was also opened in a browser session. Entering `Pulse` into the labelled brand search field reduced the visible record count from five to one and returned only the PulsePure inspection. This confirms the user-facing history filter is wired through the inspection repository.
+
+The filtered PulsePure row was opened through its accessible row action, displaying the inspection drawer with all seven green rule cards, tabs, notes, evidence-region control, and report exports. Selecting **PDF Preview** generated an in-app embedded document viewer showing the official-style compliance report.
+
+Primary navigation was then confirmed to reach **New Scan**, where the browser exposes named Camera and Upload actions, a keyboard-operable “Upload package-label images” intake surface, and the labelled opening-notes field. The scanner’s backend analyze and retained-report paths are additionally covered in the inspection-router contract suite.
+
+Following the modal refactor, the live history register exposes each retained inspection as a named keyboard-operable row action, ready to open an accessible detail dialog.
+
+The selected record now opens in a labelled modal dialog with the full inspection workspace inside its focus-managed boundary. Pressing **Escape** dismissed the dialog and returned to the inspection register, confirming keyboard-close behavior.
+
+The JSON export action was triggered from the accessible dialog for a retained inspection, exercising the client-side inspection-summary download path. PDF rendering was separately exercised through the in-app preview, while report persistence is covered by the router contract test.
+
+The scanner’s real multi-file input handler accepted a controlled PNG fixture (`label-fixture.png`) and reported it as a staged `image/png` file, exercising the client-side upload intake and preview state path without submitting user content to Gemini.
+
+The staged fixture then appeared as an evidence thumbnail, incremented the scanner count to one of six images, and enabled the **Extract & inspect package** action.
+
+The Camera control was exercised with a controlled `getUserMedia` denial. The scanner invoked the fallback capture-file input, confirming that a field device without live camera permission can continue through the image-picker path.
+
+The retained inspection was reopened in the accessible dialog to complete the remaining CSV and generated-PDF export checks.
+
+The CSV export action was triggered from the retained record. The **PDF report** action then generated the official-style document, displayed the success confirmation, triggered the download, and invoked the retained-report persistence path.
+
+The live-capture workflow was exercised with a controlled `MediaStream` and synthetic canvas frame. The camera preview opened, **Capture frame** produced a staged `field-capture-…` image, and the scanner returned to the standard evidence-preview workflow without requiring physical camera hardware.
+
+Keyboard verification confirmed that the scanner intake receives focus and that **Enter** invokes the same file-picker action as pointer upload. The history rows, Radix tabs, modal dialog with Escape close, close action, and keyboard-flag control use their labelled focusable controls and visible focus states; the dialog primitive supplies focus trapping while open.
+
+The full retained register was reloaded with each inspection still exposed as a labelled row action before the focused evidence-flagging check.
+
+Inside the accessible inspection dialog, the **Flag region** control was activated and changed to **Click image**, confirming that the evidence-flagging mode is a reachable, labelled control. Records with retained evidence expose the focusable image target and its Enter/Space flag placement behavior; seeded examples intentionally contain no image bytes.
+
+A controlled `e2e-label.png` fixture was staged through the live scanner to execute the server-side Gemini extraction, storage, and evidence-flagging flow end to end.
+
+The first live extraction check surfaced a provider deprecation response for `gemini-2.5-flash`. The server extraction service was immediately routed to the API-specified current Flash model, `gemini-3.6-flash`, before the workflow was rerun.
+
+The server refresh reset the transient client staging state as expected; the controlled image fixture was prepared again for the current-model retry.
+
+The restaged fixture was visible in the scanner with the extraction action enabled after the model-routing update.
+
+The current-model live run completed successfully. Gemini returned the expected all-missing extraction for the blank controlled image, the rule engine produced seven failures and a non-compliant result, and the stored inspection displayed its retained evidence image through the application storage path.
+
+With flag mode active on the live record, the retained evidence image became a focusable target carrying the descriptive “Add an evidence-region flag at the center of this image” label.
+
+Pressing **Enter** on the focused live evidence image created one flagged visual region. Saving the inspection then exercised the persisted notes-and-flags update path for the retained record.
+
+The save operation completed and the live inspection retained the flagged-region marker in its evidence view.
+
+For keyboard navigation, the Dashboard control received focus and **Enter** changed the active route from New Scan to the Dashboard view.
+
+The Scan History control was likewise focused and activated with **Enter**, routing successfully from the Dashboard to the retained inspection register.
+
+The live retained-evidence inspection was opened in the accessible dialog for direct keyboard interaction testing across the evidence-detail tabs.
+
+The focused **Summary** tab responded to **ArrowRight** by moving focus and activating **Extracted Data**, which displayed the structured declaration fields without pointer input.
+
+From the tab row, **End** moved to and activated **PDF Preview**. The official-style report then generated and rendered inside the embedded document viewer, completing the keyboard tab activation check across the tab sequence.
+
+The Dashboard’s sidebar **New Scan** control was then focused in preparation for its explicit Enter-key route activation check.
+
+Pressing **Enter** on the focused New Scan control routed successfully from Dashboard to the field capture station.
+
+The live inspection detail dialog was reopened with its persisted evidence marker before focusing and activating the Raw JSON tab by keyboard.
+
+The Raw JSON tab received focus and **Enter** activated it, rendering the stored extraction and seven-rule evaluation payload without pointer input.
+
+The automated suite verifies the Gemini credential, seven-rule evaluator, seeded repository filtering and dashboard metrics, plus tRPC contracts for list, get, analyze, update-notes, and saved-report procedures. The interface has visible focus treatment for keyboard-operable upload intake, inspection rows, evidence-region flagging, controls, tabs, and dismiss actions.
