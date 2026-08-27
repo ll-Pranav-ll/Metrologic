@@ -55,3 +55,4 @@
 - [x] Add and validate the Vercel SPA build, catch-all API function, and public tRPC health-route regression test.
 - [x] Correct the Vercel Vite output directory after the first external build reported no repository-level dist folder.
 - [x] Route Vercel API requests ahead of the SPA fallback and validate the routing configuration in Vitest.
+- [ ] Deploy and verify the bundled Vercel API handler so the serverless runtime no longer depends on unresolved workspace source imports.
