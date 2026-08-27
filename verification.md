@@ -85,3 +85,11 @@ A second post-fix camera check used a canvas-backed stream with one active video
 The canvas-backed stream exposed one active video track, but the sandbox browser’s media pipeline did not surface frame metadata (`readyState: 0`, `videoWidth: 0`, `videoHeight: 0`). This environment limitation prevents a truthful pixel-level non-black preview claim. The production fix remains wired for real device streams; physical-phone confirmation is still recommended because only a device camera can provide that final hardware-specific proof.
 
 The user subsequently confirmed that the repaired camera preview works on their phone, completing the outstanding physical-device verification.
+
+## Vercel deployment preparation
+
+Vercel now has a server-side `GEMINI_API_KEY` secret configured independently for its Production and Preview environments. The credential remains outside the client bundle and repository. The new Vercel build command emits the Vite single-page application to `dist`, while the `api/[...path].ts` serverless entry exports the same Express app factory used in local development.
+
+The external-deployment build completed successfully, TypeScript validation passed, and Vitest passed all seven test files and thirteen tests. The added HTTP-level regression test starts the exported Express app and confirms that `GET /api/trpc/system.health` returns the public `{ ok: true }` response through the Vercel-compatible API path.
+
+Persistent inspection creation, evidence uploads, generated-report retention, and historical records still require infrastructure that is specific to the original Manus runtime: an external MySQL/TiDB-compatible `DATABASE_URL` and a replacement for the Forge-based object storage backend. These are not configured in Vercel yet, so a deployed build can truthfully be verified only for static UI delivery and public API routing until the durable services are supplied and migrated.

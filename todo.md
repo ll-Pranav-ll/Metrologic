@@ -42,3 +42,14 @@
 - [x] Change all workspace typography to Inter.
 - [x] Keep Scan History record-row hover states dark grey with readable text.
 - [x] Verify the updated font and history-row hover contrast on desktop and mobile.
+- [x] Publish the current production-ready Metrologic source to the connected GitHub account.
+- [x] Verify the GitHub repository contains the final application revision.
+- [x] Assess Metrologic compatibility with the selected Vercel deployment runtime.
+- [ ] Configure the selected external host with all required production variables, including external database and evidence-storage settings.
+- [ ] Deploy the GitHub repository to the selected external provider and verify the production application.
+- [x] Enable the connected Vercel integration and identify its project configuration.
+- [ ] Complete Vercel-compatible application routing and durable evidence/report storage without exposing server credentials.
+- [x] Configure Vercel server-side GEMINI_API_KEY for Production and Preview.
+- [ ] Configure the remaining Vercel runtime variables for external database and durable evidence/report storage.
+- [ ] Deploy Metrologic to Vercel, verify production behavior, and push the configuration changes to GitHub.
+- [x] Add and validate the Vercel SPA build, catch-all API function, and public tRPC health-route regression test.
