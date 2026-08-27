@@ -53,3 +53,4 @@
 - [ ] Configure the remaining Vercel runtime variables for external database and durable evidence/report storage.
 - [ ] Deploy Metrologic to Vercel, verify production behavior, and push the configuration changes to GitHub.
 - [x] Add and validate the Vercel SPA build, catch-all API function, and public tRPC health-route regression test.
+- [x] Correct the Vercel Vite output directory after the first external build reported no repository-level dist folder.
