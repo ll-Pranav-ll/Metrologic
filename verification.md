@@ -161,3 +161,8 @@ The user clarified that the relevant target is the Manus-hosted scanner at `http
 
 
 The refreshed Manus-hosted and local desktop browser sessions both surfaced the existing camera-unavailable fallback because this sandbox has no usable `getUserMedia` device. The camera implementation and regression suite were therefore validated structurally and with synthetic stream tests; real desktop frame confirmation requires the user’s physical desktop browser.
+
+
+## Final camera confirmation — 2026-08-28
+
+The user confirmed that the Manus-hosted scanner now shows the live camera feed and successfully captures a frame on desktop. The user separately confirmed that the mobile scanner also continues to show the live feed and capture frames after the desktop-safe constraint and playback-lifecycle fix. Vercel was intentionally left unchanged per the narrowed requirement.
