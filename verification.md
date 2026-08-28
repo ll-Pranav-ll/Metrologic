@@ -133,3 +133,4 @@ The generic Preview picker is not available through the current Vercel form desp
 `SUPABASE_URL` was saved successfully as a masked Vercel Production variable. A fresh environment-variable form is open for the Supabase PostgreSQL transaction-pooler connection; this value will also remain masked and Production-scoped for the initial durable deployment.
 
 The server-only `SUPABASE_DATABASE_URL` name and supplied transaction-pooler connection are now entered as a masked Production Vercel secret. The value is ready to save; it has not been written to the source repository or client build.
+The Vercel form was refreshed and the exact server-only `SUPABASE_SERVICE_ROLE_KEY` variable was entered as a masked Production secret. Its raw value is intentionally not recorded in project files or logs. The form is ready for the final Save action.
