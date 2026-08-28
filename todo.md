@@ -45,12 +45,12 @@
 - [x] Publish the current production-ready Metrologic source to the connected GitHub account.
 - [x] Verify the GitHub repository contains the final application revision.
 - [x] Assess Metrologic compatibility with the selected Vercel deployment runtime.
-- [ ] Configure the selected external host with all required production variables, including external database and evidence-storage settings.
+- [x] Configure the selected external host with all required production variables, including external database and evidence-storage settings.
 - [x] Deploy the GitHub repository to Vercel and verify the production SPA plus authenticated health endpoint.
 - [x] Enable the connected Vercel integration and identify its project configuration.
-- [ ] Complete Vercel-compatible application routing and durable evidence/report storage without exposing server credentials.
+- [x] Complete Vercel-compatible application routing and durable evidence/report storage without exposing server credentials.
 - [x] Configure Vercel server-side GEMINI_API_KEY for Production and Preview.
-- [ ] Configure the remaining Vercel runtime variables for external database and durable evidence/report storage.
+- [x] Configure the remaining Vercel runtime variables for external database and durable evidence/report storage.
 - [x] Push the Vercel configuration changes to GitHub main and verify the production SPA plus authenticated health route.
 - [x] Add and validate the Vercel SPA build, catch-all API function, and public tRPC health-route regression test.
 - [x] Correct the Vercel Vite output directory after the first external build reported no repository-level dist folder.
@@ -58,12 +58,14 @@
 - [x] Deploy and verify the bundled Vercel API handler so the serverless runtime no longer depends on unresolved workspace source imports.
 - [x] Disable Vercel Authentication as approved so the application and API can be publicly reached on Vercel aliases.
 - [ ] Verify unauthenticated access to the intended production health endpoint after public-access settings are finalized.
-- [ ] Migrate the Drizzle schema and inspection repository from MySQL to Supabase PostgreSQL.
-- [ ] Replace Manus Forge evidence and report storage with a private Supabase Storage bucket and server-side signed access.
-- [ ] Configure the required Supabase and Vercel production secrets without exposing credentials to the client or repository.
-- [ ] Apply the inspection schema and storage policy to the selected Supabase project, then verify persistent scan creation and history.
+- [x] Migrate the Drizzle schema and inspection repository from MySQL to Supabase PostgreSQL.
+- [x] Replace Manus Forge evidence and report storage with a private Supabase Storage bucket and server-side signed access.
+- [x] Configure the required Supabase and Vercel production secrets without exposing credentials to the client or repository.
+- [x] Apply the inspection schema and storage policy to the selected Supabase project, then verify persistent scan creation and history.
 - [x] Validate the normalized Supabase project URL and service-role key with an authenticated REST-root regression test.
 - [x] Create the approved private Supabase Storage bucket named inspection-evidence for label evidence and generated reports.
 - [x] Fix the ResizeObserver loop warning reported on the Scan History page and validate the responsive detail-dialog behavior.
 - [x] Re-verify the Scan History detail dialog after the ResizeObserver fix at a mobile-sized viewport, including open, bounded scroll, and close behavior.
 - [x] Document the post-fix filter and responsive detail-dialog verification in verification.md before checkpointing.
+- [x] Add focused regression coverage for the Supabase Storage upload adapter and `/api/storage/*` signed-redirect route, including failure handling.
+- [x] Verify a durable Supabase scan/report workflow end to end, including evidence upload, report retention, signed file retrieval, and history persistence.
