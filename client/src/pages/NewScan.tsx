@@ -3,7 +3,7 @@ import { MetrologicShell } from "@/components/MetrologicShell";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
-import { bindCameraStream } from "@/lib/camera";
+import { bindCameraStream, getCameraConstraints, hasRenderableCameraFrame } from "@/lib/camera";
 import type { InspectionRecord } from "@shared/inspection";
 import { Camera, ImagePlus, LoaderCircle, ScanLine, Trash2, Upload, Video, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -25,6 +25,7 @@ export default function NewScan() {
   const [staged, setStaged] = useState<StagedImage[]>([]);
   const [notes, setNotes] = useState("");
   const [cameraOpen, setCameraOpen] = useState(false);
+  const [cameraReady, setCameraReady] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [result, setResult] = useState<InspectionRecord | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -47,7 +48,10 @@ export default function NewScan() {
     if (!stream) return;
     const video = videoRef.current;
     bindCameraStream(video, stream);
-    return () => { if (video?.srcObject === stream) video.srcObject = null; };
+    return () => {
+      if (video?.srcObject === stream) video.srcObject = null;
+      setCameraReady(false);
+    };
   }, [cameraOpen]);
   useEffect(() => () => { streamRef.current?.getTracks().forEach(track => track.stop()); }, []);
   useEffect(() => { if (result) utils.inspection.list.invalidate(); }, [result, utils.inspection.list]);
@@ -62,14 +66,17 @@ export default function NewScan() {
   const openCamera = async () => {
     if (!navigator.mediaDevices?.getUserMedia) { cameraInputRef.current?.click(); return; }
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } }, audio: false });
+      setCameraReady(false);
+      const stream = await navigator.mediaDevices.getUserMedia(getCameraConstraints());
       streamRef.current = stream;
       setCameraOpen(true);
     } catch { toast.error("Camera access is unavailable. Use the image picker instead."); cameraInputRef.current?.click(); }
   };
-  const closeCamera = () => { streamRef.current?.getTracks().forEach(track => track.stop()); streamRef.current = null; setCameraOpen(false); };
+  const closeCamera = () => { streamRef.current?.getTracks().forEach(track => track.stop()); streamRef.current = null; if (videoRef.current) { videoRef.current.pause(); videoRef.current.srcObject = null; } setCameraReady(false); setCameraOpen(false); };
   const captureFrame = () => {
-    const video = videoRef.current; if (!video) return;
+    const video = videoRef.current;
+    if (!hasRenderableCameraFrame(video)) { toast.error("The camera preview is not ready yet. Wait for a live frame or use Upload."); return; }
+    if (!video) return;
     const canvas = document.createElement("canvas"); canvas.width = video.videoWidth; canvas.height = video.videoHeight;
     canvas.getContext("2d")?.drawImage(video, 0, 0);
     canvas.toBlob(blob => { if (!blob) return; const file = new File([blob], `field-capture-${Date.now()}.jpg`, { type: "image/jpeg" }); appendFiles([file]); closeCamera(); }, "image/jpeg", 0.92);
@@ -101,6 +108,6 @@ export default function NewScan() {
       {result && <div className="mt-9"><InspectionDetail record={result} onClose={() => setResult(null)} /></div>}
     </div>
 
-    {cameraOpen && <div className="fixed inset-0 z-[70] grid place-items-center bg-[#11120f]/85 p-4"><div className="w-full max-w-3xl border border-white/20 bg-[#11120f] p-4 text-white shadow-[10px_10px_0_#ffd600]"><div className="flex items-center justify-between"><p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#ffd600]">Live camera capture</p><button onClick={closeCamera} aria-label="Close camera"><X className="h-5 w-5" /></button></div><video ref={videoRef} autoPlay muted playsInline onLoadedMetadata={() => bindCameraStream(videoRef.current, streamRef.current)} className="mt-4 aspect-video w-full bg-black object-cover" /><div className="mt-4 flex justify-end gap-2"><Button variant="outline" onClick={closeCamera} className="rounded-none border-white/30 bg-transparent font-mono text-[10px] uppercase tracking-[0.14em] text-white hover:bg-white hover:text-[#11120f]">Cancel</Button><Button onClick={captureFrame} className="rounded-none bg-[#ffd600] font-mono text-[10px] uppercase tracking-[0.14em] text-[#11120f]"><Camera className="mr-2 h-3.5 w-3.5" />Capture frame</Button></div></div></div>}
+    {cameraOpen && <div className="fixed inset-0 z-[70] grid place-items-center bg-[#11120f]/85 p-4"><div className="w-full max-w-3xl border border-white/20 bg-[#11120f] p-4 text-white shadow-[10px_10px_0_#ffd600]"><div className="flex items-center justify-between"><p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#ffd600]">Live camera capture</p><button onClick={closeCamera} aria-label="Close camera"><X className="h-5 w-5" /></button></div><video ref={node => { videoRef.current = node; if (node) bindCameraStream(node, streamRef.current); }} autoPlay muted playsInline onLoadedMetadata={() => { bindCameraStream(videoRef.current, streamRef.current); setCameraReady(hasRenderableCameraFrame(videoRef.current)); }} onCanPlay={() => { bindCameraStream(videoRef.current, streamRef.current); setCameraReady(hasRenderableCameraFrame(videoRef.current)); }} onPlaying={() => setCameraReady(true)} className="mt-4 aspect-video w-full bg-black object-cover" /><p className="mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-white/60">{cameraReady ? "Live preview ready" : "Starting live preview…"}</p><div className="mt-4 flex justify-end gap-2"><Button variant="outline" onClick={closeCamera} className="rounded-none border-white/30 bg-transparent font-mono text-[10px] uppercase tracking-[0.14em] text-white hover:bg-white hover:text-[#11120f]">Cancel</Button><Button onClick={captureFrame} className="rounded-none bg-[#ffd600] font-mono text-[10px] uppercase tracking-[0.14em] text-[#11120f]"><Camera className="mr-2 h-3.5 w-3.5" />Capture frame</Button></div></div></div>}
   </MetrologicShell>;
 }
