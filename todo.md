@@ -69,7 +69,7 @@
 - [x] Document the post-fix filter and responsive detail-dialog verification in verification.md before checkpointing.
 - [x] Add focused regression coverage for the Supabase Storage upload adapter and `/api/storage/*` signed-redirect route, including failure handling.
 - [x] Verify a durable Supabase scan/report workflow end to end, including evidence upload, report retention, signed file retrieval, and history persistence.
-- [ ] Fix the live camera preview rendering only a black frame on the published Vercel scanner for desktop and mobile.
-- [ ] Add regression coverage for camera preview readiness/rendering and verify the deployed scanner after the fix.
+- [x] Superseded: Vercel camera-preview fix removed from scope when the user identified the Manus-hosted deployment as the target.
+- [x] Superseded: Vercel-specific camera regression/deployment verification removed from scope; shared camera regression coverage is retained for the Manus-hosted target.
 - [x] Fix the Manus-hosted desktop-only black camera preview while preserving the working mobile preview; leave Vercel unchanged.
-- [ ] Verify the Manus-hosted scanner on desktop and mobile after the camera fix.
+- [x] Verify the Manus-hosted scanner on desktop and mobile after the camera fix; user confirmed live feed and frame capture work on desktop and mobile.

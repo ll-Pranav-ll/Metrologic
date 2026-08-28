@@ -153,3 +153,16 @@ The managed project SQL executor targets the original project database, which is
 The Drizzle schema and repository now use PostgreSQL through the supplied Supabase transaction pooler, with JSONB inspection payloads and explicit timestamp updates. A controlled external migration script applied the `user_role`, `users`, and `inspections` schema directly to Supabase and verified both tables, which avoided the managed project SQL executor’s TiDB/MySQL target. The private `inspection-evidence` bucket is used by a server-only Supabase Storage adapter; stored files resolve through `/api/storage/...`, which issues fresh signed redirects. The complete Vitest suite passes 10 files and 16 tests, TypeScript passes, and the Vercel build produces the self-contained handler and SPA. A production redeployment and durable end-to-end scan write are still pending.
 The first end-to-end storage attempt exposed a Supabase API mismatch: signing is served at `/storage/v1/object/sign/{bucket}/{key}`, not by appending `/sign` after the object path. The adapter and verification script were corrected. The disposable workflow then passed: evidence and PDF objects uploaded to the private bucket, an inspection row retained their keys and server URLs, both signed URLs retrieved successfully, and the temporary row/files were cleaned up. No customer or production inspection data was used.
 An opt-in application-level integration test now exercises the real Metrologic router with Supabase: `inspection.analyze` uploaded synthetic evidence and saved a generated inspection, `inspection.saveReport` retained the report reference, and `inspection.list` plus `inspection.get` returned the same record and references. The test used only disposable synthetic content and cleaned the database row and storage objects afterward. The workflow passed in 3.3 seconds.
+
+
+## Desktop Manus-hosted camera follow-up — 2026-08-28
+
+The user clarified that the relevant target is the Manus-hosted scanner at `https://metrolginsp-djgzhxse.manus.space/scan`; Vercel is out of scope. The updated camera-preview checkpoint is live on the Manus-hosted project. The sandbox desktop browser can load the refreshed scanner, but its `getUserMedia` call is unavailable and correctly enters the image-picker fallback. Consequently, this browser session cannot provide hardware-frame evidence for the desktop path. The user reports the mobile path is already working; physical desktop verification remains required for the final frame-rendering confirmation.
+
+
+The refreshed Manus-hosted and local desktop browser sessions both surfaced the existing camera-unavailable fallback because this sandbox has no usable `getUserMedia` device. The camera implementation and regression suite were therefore validated structurally and with synthetic stream tests; real desktop frame confirmation requires the user’s physical desktop browser.
+
+
+## Final camera confirmation — 2026-08-28
+
+The user confirmed that the Manus-hosted scanner now shows the live camera feed and successfully captures a frame on desktop. The user separately confirmed that the mobile scanner also continues to show the live feed and capture frames after the desktop-safe constraint and playback-lifecycle fix. Vercel was intentionally left unchanged per the narrowed requirement.
