@@ -73,3 +73,5 @@
 - [x] Superseded: Vercel-specific camera regression/deployment verification removed from scope; shared camera regression coverage is retained for the Manus-hosted target.
 - [x] Fix the Manus-hosted desktop-only black camera preview while preserving the working mobile preview; leave Vercel unchanged.
 - [x] Verify the Manus-hosted scanner on desktop and mobile after the camera fix; user confirmed live feed and frame capture work on desktop and mobile.
+- [x] Fix the New Scan camera/capture button text slightly exceeding its visual bounds after the failed visual-editor edit.
+- [x] Verify the corrected button at desktop and mobile widths, then checkpoint the change.
