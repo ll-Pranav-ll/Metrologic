@@ -136,6 +136,22 @@
   .reveal-card:nth-child(4) { animation-delay: 135ms; }
   .reveal-card:nth-child(5) { animation-delay: 180ms; }
   @keyframes card-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .dashboard-glow { pointer-events: none; opacity: 0.16; filter: blur(18px); transform: translate3d(0, 0, 0); animation: dashboard-glow-breathe 8s ease-in-out infinite; }
+  .dashboard-glow--hero { background: radial-gradient(circle, rgba(255, 214, 0, 0.7) 0%, rgba(255, 214, 0, 0.18) 38%, transparent 72%); }
+  .dashboard-glow--panel { opacity: 0.12; background: radial-gradient(circle, rgba(255, 214, 0, 0.58) 0%, rgba(255, 214, 0, 0.12) 42%, transparent 74%); animation-delay: -2.4s; }
+  .dashboard-glow--rhythm { opacity: 0.13; background: radial-gradient(circle, rgba(255, 214, 0, 0.68) 0%, rgba(255, 214, 0, 0.14) 42%, transparent 74%); animation-delay: -4.8s; }
+  .dashboard-orbit { transform-origin: center; animation: dashboard-orbit-drift 11s ease-in-out infinite; }
+  .dashboard-orbit--hero-reverse, .dashboard-orbit--panel-reverse, .dashboard-orbit--rhythm-reverse { animation-direction: reverse; animation-duration: 14s; }
+  .dashboard-orbit--panel { animation-duration: 13s; }
+  .dashboard-orbit--rhythm { animation-duration: 15s; }
+  .dashboard-sweep { opacity: 0.18; background: linear-gradient(105deg, transparent 0%, rgba(255, 214, 0, 0.12) 48%, transparent 100%); transform: translate3d(35%, 0, 0); animation: dashboard-sweep-glide 12s ease-in-out infinite; }
+  .dashboard-spark { opacity: 0.32; animation: dashboard-spark-pulse 4.6s ease-in-out infinite; }
+  .dashboard-rhythm-bar { transform-origin: center; animation: dashboard-bar-pulse 3.8s ease-in-out infinite; }
+  @keyframes dashboard-glow-breathe { 0%, 100% { opacity: 0.1; transform: scale(0.92); } 50% { opacity: 0.22; transform: scale(1.06); } }
+  @keyframes dashboard-orbit-drift { 0%, 100% { opacity: 0.52; transform: rotate(-5deg) translate3d(0, 0, 0); } 50% { opacity: 0.9; transform: rotate(5deg) translate3d(-7px, 5px, 0); } }
+  @keyframes dashboard-sweep-glide { 0%, 100% { opacity: 0.06; transform: translate3d(36%, 0, 0); } 50% { opacity: 0.22; transform: translate3d(-10%, 0, 0); } }
+  @keyframes dashboard-spark-pulse { 0%, 100% { opacity: 0.22; transform: scale(0.8); } 50% { opacity: 0.82; transform: scale(1.18); } }
+  @keyframes dashboard-bar-pulse { 0%, 100% { opacity: 0.72; transform: scaleY(0.82); } 50% { opacity: 1; transform: scaleY(1); } }
   @media (min-width: 640px) { .container { padding-left: 1.5rem; padding-right: 1.5rem; } }
   @media (min-width: 1024px) { .container { padding-left: 2rem; padding-right: 2rem; max-width: 1280px; } }
 }
@@ -146,4 +162,5 @@ button:active, a:active { transform: scale(0.97); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .dashboard-glow, .dashboard-orbit, .dashboard-sweep, .dashboard-spark, .dashboard-rhythm-bar { animation: none !important; }
 }

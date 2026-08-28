@@ -166,3 +166,10 @@ The refreshed Manus-hosted and local desktop browser sessions both surfaced the 
 ## Final camera confirmation — 2026-08-28
 
 The user confirmed that the Manus-hosted scanner now shows the live camera feed and successfully captures a frame on desktop. The user separately confirmed that the mobile scanner also continues to show the live feed and capture frames after the desktop-safe constraint and playback-lifecycle fix. Vercel was intentionally left unchanged per the narrowed requirement.
+
+
+## Dashboard looping decoration verification — 2026-08-28
+
+The missed visual-editor edits were applied manually to `Dashboard.tsx`. The hero background now includes a breathing glow, drifting orbit rings, a slow sweep, and pulsing signal sparks. The ready-state panel and inspection-rhythm panel include independent subtle glow/orbit layers, while the rhythm bars pulse with staggered delays. Decorative elements are marked `aria-hidden`, use transform/opacity animation, and are disabled under `prefers-reduced-motion: reduce`.
+
+The Dashboard was visually checked at 1280 × 720 and 390 × 844. The background and side-panel decoration remained contained, readable, and non-blocking at both sizes. Vitest passed 27 tests with 1 intentionally skipped, TypeScript validation passed, and the production build passed with only the existing large-chunk advisory warning.
