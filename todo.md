@@ -64,3 +64,6 @@
 - [ ] Apply the inspection schema and storage policy to the selected Supabase project, then verify persistent scan creation and history.
 - [x] Validate the normalized Supabase project URL and service-role key with an authenticated REST-root regression test.
 - [x] Create the approved private Supabase Storage bucket named inspection-evidence for label evidence and generated reports.
+- [x] Fix the ResizeObserver loop warning reported on the Scan History page and validate the responsive detail-dialog behavior.
+- [x] Re-verify the Scan History detail dialog after the ResizeObserver fix at a mobile-sized viewport, including open, bounded scroll, and close behavior.
+- [x] Document the post-fix filter and responsive detail-dialog verification in verification.md before checkpointing.
