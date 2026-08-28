@@ -91,7 +91,7 @@ export default function NewScan() {
     <div className="space-y-8">
       <section className="scan-reveal hairline-heading"><span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#777970]">02</span><div><p className="section-kicker">Evidence intake</p><h2 className="mt-1 font-display text-2xl font-semibold tracking-[-0.045em]">Build the evidence set.</h2></div><span className="hidden font-mono text-[9px] uppercase tracking-[0.15em] text-[#777970] sm:block">Front panel + declaration panel</span></section>
 
-      <section className="grid gap-6 xl:grid-cols-[1.16fr_.84fr]">
+      <section className="grid gap-6 lg:grid-cols-[1.16fr_.84fr]">
         <div className="scan-reveal paper-card motion-card overflow-hidden">
           <div className="flex flex-wrap items-start justify-between gap-4 border-b border-[#11120f]/15 p-5 sm:p-6"><div><p className="section-kicker">Image intake / station 01</p><h2 className="mt-2 font-display text-3xl font-semibold tracking-[-0.055em]">Capture package evidence.</h2></div><div className="flex gap-2"><button onClick={openCamera} className="outline-button h-10 px-3"><Camera className="mr-2 h-3.5 w-3.5" />Camera</button><button onClick={() => inputRef.current?.click()} className="ink-button h-10 px-3"><Upload className="mr-2 h-3.5 w-3.5" />Upload</button></div></div>
           <input ref={inputRef} className="hidden" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" multiple onChange={event => event.target.files && appendFiles(event.target.files)} />

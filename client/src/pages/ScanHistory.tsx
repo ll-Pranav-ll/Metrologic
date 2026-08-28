@@ -19,7 +19,10 @@ function statusTone(status: ComplianceStatus) {
 
 export default function ScanHistory() {
   const [location, navigate] = useLocation();
-  const params = useMemo(() => new URLSearchParams(location.split("?")[1] ?? ""), [location]);
+  const params = useMemo(() => {
+    const search = typeof window !== "undefined" ? window.location.search : location.includes("?") ? `?${location.split("?")[1]}` : "";
+    return new URLSearchParams(search);
+  }, [location]);
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<ComplianceStatus | "ALL">("ALL");
   const [from, setFrom] = useState("");
