@@ -107,3 +107,29 @@ The bundled-handler production deployment reached `READY`, but the first live he
 Vercel’s aggregated runtime-error endpoint had not indexed the new invocation, and its status-filtered log query timed out despite being scoped to the deployment. The next diagnostic step is the authenticated deployment-log page, which exposes the per-request startup stack trace directly.
 
 The authenticated Vercel log showed the remaining error: the generated `vercel-app.mjs` exports the named `createApp` factory, not a default Express app. The API entry now imports that named factory and instantiates the handler. This aligns the deployed entry with the generated ESM bundle; the build and live endpoint will be rerun before the task is marked complete.
+
+The final named-export deployment reached `READY`. Browser navigation to the health URL no longer displayed Vercel’s function-crash page, but the browser automation did not render the JSON response as a document and returned to a blank page. A direct Vercel fetch using a correctly separated temporary access parameter is required for a definitive response-body check while SSO protection remains enabled for deployment aliases.
+
+The final Vercel production deployment is `READY` at `https://metrologic-28apv4m0a-pranav-93fb.vercel.app`, built from GitHub main revision `6bc1ca94a5d91752c9ef08f4f42ae85e597953d0`. The primary production root `https://metrologic.vercel.app/` returned `200 OK` with the Metrologic HTML document. The authenticated deployment log records a `200` response for `GET /api/trpc/system.health`; the only message was the expected warning that no optional session cookie was present. This confirms the static SPA and public health procedure run successfully in the final bundled Vercel function.
+
+Vercel’s current SSO protection applies to deployment aliases, so direct unauthenticated function verification through the temporary-alias URL is redirected to Vercel SSO. No protection setting was changed. The primary Vercel root remains reachable and the authorized health check passed. Before inviting external field users, the project owner should decide whether to keep that SSO protection or disable it for publicly accessible alias URLs.
+
+## Supabase credential validation
+
+The supplied Supabase REST endpoint was normalized to the project base URL, and the server-side service-role key was stored securely outside source control. A dedicated Vitest check made an authenticated lightweight request to the Supabase REST root and passed. The project endpoint and service-role credential are therefore valid. The supplied transaction-pooler connection string will be validated during the PostgreSQL migration; it has not been exposed in logs, source, or client configuration.
+
+The approved private `inspection-evidence` Supabase Storage bucket was created successfully with the server-side service-role credential. Vercel Authentication was also disabled through the project’s Deployment Protection settings, after the user expressly confirmed this action. The Vercel UI confirmed that the setting is disabled; unauthenticated endpoint verification will follow the next production deployment.
+
+The Vercel Environment Variables page confirms the existing server-side `GEMINI_API_KEY` entries and is ready to receive the three Supabase server-only variables for both Production and Preview. The initial Add Environment Variable control snapshot became stale before it could be selected; the form will be reopened before entering any sensitive value.
+
+The Add Environment Variable form was reopened. The normalized server-side `SUPABASE_URL` is entered as a masked Vercel value and is currently scoped to Production; Preview will be added before saving. The remaining database connection and service-role variables will be added as masked server-only values afterward.
+
+The Vercel environment selector exposes separate generic-environment and branch-specific preview choices. The selection flow entered the branch-specific view, which has no configured preview branches; the selector will be returned to its parent menu so the generic Preview environment can be selected instead.
+
+After returning to the selector, filtering for Preview again surfaced only the branch-specific preview category. The variable will remain server-only and Production-scoped unless the generic Preview selection can be reached through the current control; its configuration state is being inspected before any value is saved.
+
+The generic Preview picker is not available through the current Vercel form despite the project’s earlier Preview secret configuration. To avoid delaying the approved production migration, `SUPABASE_URL` will be saved as a masked Production variable now. The same Supabase configuration can be added to Preview once the production deployment has been validated.
+
+`SUPABASE_URL` was saved successfully as a masked Vercel Production variable. A fresh environment-variable form is open for the Supabase PostgreSQL transaction-pooler connection; this value will also remain masked and Production-scoped for the initial durable deployment.
+
+The server-only `SUPABASE_DATABASE_URL` name and supplied transaction-pooler connection are now entered as a masked Production Vercel secret. The value is ready to save; it has not been written to the source repository or client build.
