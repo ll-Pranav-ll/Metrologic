@@ -57,7 +57,7 @@
 - [x] Route Vercel API requests ahead of the SPA fallback and validate the routing configuration in Vitest.
 - [x] Deploy and verify the bundled Vercel API handler so the serverless runtime no longer depends on unresolved workspace source imports.
 - [x] Disable Vercel Authentication as approved so the application and API can be publicly reached on Vercel aliases.
-- [ ] Verify unauthenticated access to the intended production health endpoint after public-access settings are finalized.
+- [x] Verify unauthenticated access to the intended production tRPC health endpoint (`/api/trpc/system.health`) after public-access settings were finalized.
 - [x] Migrate the Drizzle schema and inspection repository from MySQL to Supabase PostgreSQL.
 - [x] Replace Manus Forge evidence and report storage with a private Supabase Storage bucket and server-side signed access.
 - [x] Configure the required Supabase and Vercel production secrets without exposing credentials to the client or repository.
